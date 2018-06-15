@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.tzc.yk.mapper.ItemMapper">
+
+    <select id="GetAllItem" resultType="Item">
+        select * from items order by id asc
+    </select>
+
+    <select id="getItemByPrice" resultType="Item">
+        select * from ITEMS where PRICE BETWEEN #{begin} and #{end}
+    </select>
+
+    <select id="search" parameterType="String" resultType="Item">
+        select * from ITEMS where NAME like '%${value}%'
+    </select>
+
+    <select id="getItemById" parameterType="int" resultType="Item">
+        select * from ITEMS where ID = #{VALUE}
+    </select>
+
+    <select id="addShoppingCar">
+        insert into SHOPPINGCAR VALUES (#{userid},#{itemid})
+    </select>
+
+    <select id="getShoppingCarById" parameterType="int" resultType="ShoppingCarResponseItem">
+        select * from SHOPPINGCAR where USERID = #{VALUE}
+    </select>
+
+    <delete id="deleteShopCarItem">
+        delete from SHOPPINGCAR where USERID = #{userid} and ITEMID = #{itemid}
+    </delete>
+
+    <delete id="deleteOrderListItem">
+        delete from ORDERLIST where USERID = #{userid} and ITEMID = #{itemid}
+    </delete>
+
+    <insert id="addOrderList">
+        insert into ORDERLIST VALUES (#{userid},#{itemid},#{num})
+    </insert>
+
+    <select id="getOrderList" parameterType="int" resultType="SettleShoppingResponseItem">
+        select * from ORDERLIST where USERID = #{VALUE}
+    </select>
+
+    <select id="getMaxId" resultType="int">
+        select max(id) from ITEMS
+    </select>
+
+    <insert id="addItem" parameterType="Item">
+        insert into ITEMS VALUES (#{id},#{name},#{price},#{imgurl})
+    </insert>
+
+    <delete id="deleteOrderListByUserId" parameterType="int">
+        delete from ORDERLIST where USERID = #{VALUE}
+    </delete>
+
+    <delete id="deleteShoppingCarByUserId" parameterType="int">
+        delete from SHOPPINGCAR where USERID = #{VALUE}
+    </delete>
+
+</mapper>
